@@ -1,3 +1,4 @@
+import cn from 'classnames';
 export interface HelloProps {
   className?: string;
   name: string;
