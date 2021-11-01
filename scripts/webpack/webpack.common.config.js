@@ -3,6 +3,7 @@
 const path = require('path');
 
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ProgressBarPlugin = require('webpackbar');
 
 module.exports = {
@@ -22,6 +23,9 @@ module.exports = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         loader: 'ts-loader',
+        options: {
+          transpileOnly: true, //禁用 ts-loader 的类型检查
+        },
       },
       {
         test: /\.less$/,
@@ -30,7 +34,13 @@ module.exports = {
       },
     ],
   },
-  plugins: [new CleanTerminalPlugin(), new ProgressBarPlugin()],
+  plugins: [
+    new CleanTerminalPlugin(),
+    new ProgressBarPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      files: './src/**/*.{ts,tsx,js,jsx}',
+    }),
+  ],
   optimization: {
     usedExports: false,
   },
